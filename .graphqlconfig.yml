@@ -1,0 +1,15 @@
+projects:
+  restaurantreviewapp:
+    schemaPath: ./amplify/backend/api/restaurantreviewapp/build/schema.json
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ""
+        docsFilePath: /graphql
+extensions:
+  amplify:
+    version: 3

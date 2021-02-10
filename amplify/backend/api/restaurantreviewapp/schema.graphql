@@ -1,0 +1,168 @@
+type GPS {
+  lon: Float
+  lat: Float
+}
+
+type Establishment
+  @model
+  @auth(rules: [{ allow: public, provider: iam }])
+  @key(fields: ["ownerId", "id"]) {
+  id: ID!
+  ownerId: ID!
+  owner: User
+  name: String!
+  gps: GPS
+  street: String
+  city: String
+  state: String
+  zipcode: String
+  neighborhood: String
+  phone: String
+  email: String
+  placeID: String!
+  phoneNumber: String
+  likeCount: Int
+  # averageRating: Float
+  reviews: [Review]
+  userLikes: [EstablishmentLike] @connection(fields: ["id"])
+}
+
+type EstablishmentLike
+  @model(subscriptions: { level: public })
+  @auth(rules: [{ allow: public, provider: iam }])
+  @key(fields: ["establishmentId", "createdAt"])
+  @key(
+    name: "establishmentLikesByUser"
+    fields: ["userId", "createdAt"]
+    queryField: "getEstablishmentLikesByUser"
+  ) {
+  establishmentId: ID!
+  userId: ID!
+    @auth(rules: [{ allow: owner, ownerField: "userId", identityClaim: "sub" }])
+  createdAt: AWSTimestamp!
+  establishment: Establishment @connection(fields: ["establishmentId"])
+  user: User @connection(fields: ["userId"])
+  # placeID: String!
+  establishmentName: String
+}
+
+type CheckIn
+  @model(subscriptions: { level: public })
+  @auth(rules: [{ allow: public, provider: iam }])
+  @key(fields: ["establishmentId", "createdAt"])
+  @key(
+    name: "userCheckins"
+    fields: ["userId", "createdAt"]
+    queryField: "getUserCheckins"
+  ) {
+  establishmentId: ID!
+  userId: ID!
+    @auth(rules: [{ allow: owner, ownerField: "userId", identityClaim: "sub" }])
+  createdAt: AWSTimestamp!
+  # placeID: String!
+  establishmentName: String
+  establishment: Establishment @connection(fields: ["establishmentId"])
+  user: User @connection(fields: ["userId"])
+}
+
+type EstablishmentFollow
+  @model
+  @key(fields: ["establishmentId", "userId"])
+  @key(
+    name: "establishmentsFollowedByUser"
+    fields: ["userId", "establishmentId"]
+    queryField: "getEstablishmentsFollowedByUser"
+  ) {
+  establishmentId: ID!
+  userId: ID! # user.id
+  establishment: Establishment @connection(fields: ["establishmentId"])
+  user: User @connection(fields: ["userId"])
+}
+
+# type Profile
+#  {
+#   firstName: String
+#   lastName: String
+#   userName: String
+#   birthdate: String
+#   gender: String
+#   description: String
+#   photo: String
+# }
+
+type Review
+  @model(subscriptions: { level: public })
+  @auth(rules: [{ allow: public, provider: iam }])
+  @key(fields: ["establishmentId", "createdAt"])
+  @key(
+    name: "userCheckins"
+    fields: ["userId", "createdAt"]
+    queryField: "getUserCheckins"
+  ) {
+  establishmentId: ID!
+  userId: ID!
+    @auth(rules: [{ allow: owner, ownerField: "userId", identityClaim: "sub" }])
+  createdAt: AWSTimestamp!
+  # placeID: String!
+  establishmentName: String
+  comments: String
+  image: [String]
+  rating: Int
+  establishment: Establishment @connection(fields: ["establishmentId"])
+  user: User @connection(fields: ["userId"])
+}
+
+type User
+  @model(mutations: { update: "updateUser", delete: "deleteUser" })
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "id"
+        identityClaim: "sub"
+        operations: [update, delete, read]
+      }
+    ]
+  )
+  @key(fields: ["pk_id", "id"]) {
+  pk_id: ID!
+  id: ID! # First ID will be of type UserType aka consumer or owner or staff
+  ## PK = {Establishment.id}#STAFF
+  ## SK = {User.id}
+  # userType: UserType
+  firstName: String
+  lastName: String
+  userName: String
+  birthdate: String
+  gender: String
+  description: String
+  # photo: String
+  ownerOf: [Establishment]
+  createdAt: AWSDateTime
+  lastUpdated: AWSDateTime
+  # profile: Profile
+  profilePicture: String
+  followers: [UserFollow] @connection(keyName: "followers", fields: ["id"])
+  followed: [UserFollow] @connection(fields: ["id"])
+  establishmentLikes: [EstablishmentLike]
+    @connection(keyName: "establishmentLikesByUser", fields: ["id"])
+}
+
+type UserFollow
+  @model
+  @key(fields: ["id", "userFollowedId"])
+  @key(
+    name: "followers"
+    fields: ["userFollowedId", "id"]
+    queryField: "getFollowers"
+  ) {
+  id: ID! # user.id
+  userFollower: User @connection(fields: ["id"])
+  userFollowedId: ID! # user.id I'm following
+  userFollowed: User @connection(fields: ["userFollowedId"])
+}
+
+enum UserType {
+  consumer
+  owner
+}
