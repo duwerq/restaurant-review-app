@@ -1,0 +1,67 @@
+{
+  "identityPoolName": "restaurantReviewIdentityPool",
+  "allowUnauthenticatedIdentities": true,
+  "resourceNameTruncated": "restau5103d21f",
+  "userPoolName": "restaurantReviewUserPool",
+
+  "mfaConfiguration": "OPTIONAL",
+  "mfaTypes": ["SMS Text Message"],
+  "smsAuthenticationMessage": "Your Restuarant Review authentication code is {####}",
+  "smsVerificationMessage": "Your verification code is {####}",
+  "emailVerificationSubject": "Restuarant Review authentication code",
+  "emailVerificationMessage": "Restuarant Review authentication code is {####}",
+  "defaultPasswordPolicy": false,
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [],
+  "requiredAttributes": ["email", "phone_number"],
+  "userpoolClientGenerateSecret": true,
+  "userpoolClientRefreshTokenValidity": "30",
+  "userpoolClientWriteAttributes": [
+    "birthdate",
+    "family_name",
+    "gender",
+    "given_name",
+    "name",
+    "nickname",
+    "preferred_username",
+    "email",
+    "phone_number"
+  ],
+  "userpoolClientReadAttributes": [
+    "birthdate",
+    "email",
+    "family_name",
+    "gender",
+    "given_name",
+    "name",
+    "phone_number",
+    "preferred_username",
+    "email_verified",
+    "phone_number_verified"
+  ],
+  "userpoolClientLambdaRole": "restau5103d21f_userpoolclient_lambda_role",
+  "userpoolClientSetAttributes": true,
+  "sharedId": "5103d21f",
+  "resourceName": "restaurantReviewAuth",
+  "authSelections": "identityPoolAndUserPool",
+  "authRoleArn": {
+    "Fn::GetAtt": ["AuthRole", "Arn"]
+  },
+  "unauthRoleArn": {
+    "Fn::GetAtt": ["UnauthRole", "Arn"]
+  },
+  "useDefault": "manual",
+  "thirdPartyAuth": false,
+  "usernameAttributes": ["email, phone_number"],
+  "userPoolGroups": true,
+  "adminQueries": false,
+  "triggers": "{}",
+  "hostedUI": false,
+  "userPoolGroupList": ["admin"],
+  "serviceName": "Cognito",
+  "parentStack": {
+    "Ref": "AWS::StackId"
+  },
+  "permissions": [],
+  "dependsOn": []
+}

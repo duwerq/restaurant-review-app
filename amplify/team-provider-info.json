@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-restaurantreviewapp-dev-114404-authRole",
+      "UnauthRoleArn": "arn:aws:iam::519914110684:role/amplify-restaurantreviewapp-dev-114404-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::519914110684:role/amplify-restaurantreviewapp-dev-114404-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-restaurantreviewapp-dev-114404-deployment",
+      "UnauthRoleName": "amplify-restaurantreviewapp-dev-114404-unauthRole",
+      "StackName": "amplify-restaurantreviewapp-dev-114404",
+      "StackId": "arn:aws:cloudformation:us-east-1:519914110684:stack/amplify-restaurantreviewapp-dev-114404/92c0e0b0-6bc7-11eb-8e1d-125caf34a739",
+      "AmplifyAppId": "d3jkxemn9b4rf5"
+    },
+    "categories": {
+      "auth": {
+        "restaurantReviewAuth": {}
+      }
+    }
+  }
+}
