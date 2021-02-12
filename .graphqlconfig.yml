@@ -1,6 +1,6 @@
 projects:
   restaurantreviewapp:
-    schemaPath: ./amplify/backend/api/restaurantreviewapp/build/schema.json
+    schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js
     excludes:
@@ -9,7 +9,7 @@ projects:
       amplify:
         codeGenTarget: javascript
         generatedFileName: ""
-        docsFilePath: /graphql
+        docsFilePath: /src/graphql
 extensions:
   amplify:
     version: 3

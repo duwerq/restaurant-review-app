@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "storage": {
+      "User:@model(appsync)": [
+        "create"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
