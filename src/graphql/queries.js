@@ -1,6 +1,62 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const findEstablishments = /* GraphQL */ `
+  query FindEstablishments($input: findEstablishmentsInput!) {
+    findEstablishments(input: $input) {
+      items {
+        id
+        ownerId
+        owner {
+          pk_id
+          id
+          firstName
+          lastName
+          userName
+          birthdate
+          gender
+          description
+          createdAt
+          lastUpdated
+          profilePicture
+          updatedAt
+        }
+        name
+        gps {
+          lon
+          lat
+        }
+        street
+        city
+        state
+        zipcode
+        neighborhood
+        phone
+        email
+        placeID
+        phoneNumber
+        likeCount
+        reviews {
+          establishmentId
+          userId
+          createdAt
+          establishmentName
+          comments
+          image
+          rating
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        userLikes {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
 export const getEstablishmentFollow = /* GraphQL */ `
   query GetEstablishmentFollow($establishmentId: ID!, $userId: ID!) {
     getEstablishmentFollow(establishmentId: $establishmentId, userId: $userId) {
@@ -755,8 +811,76 @@ export const getEstablishment = /* GraphQL */ `
     }
   }
 `;
+export const searchEstablishments = /* GraphQL */ `
+  query SearchEstablishments(
+    $filter: SearchableEstablishmentFilterInput
+    $sort: SearchableEstablishmentSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchEstablishments(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        ownerId
+        owner {
+          pk_id
+          id
+          firstName
+          lastName
+          userName
+          birthdate
+          gender
+          description
+          createdAt
+          lastUpdated
+          profilePicture
+          updatedAt
+        }
+        name
+        gps {
+          lon
+          lat
+        }
+        street
+        city
+        state
+        zipcode
+        neighborhood
+        phone
+        email
+        placeID
+        phoneNumber
+        likeCount
+        reviews {
+          establishmentId
+          userId
+          createdAt
+          establishmentName
+          comments
+          image
+          rating
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        userLikes {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
 export const getEstablishmentLike = /* GraphQL */ `
-  query GetEstablishmentLike($establishmentId: ID!, $createdAt: AWSTimestamp!) {
+  query GetEstablishmentLike($establishmentId: ID!, $createdAt: AWSDateTime!) {
     getEstablishmentLike(
       establishmentId: $establishmentId
       createdAt: $createdAt
@@ -860,7 +984,7 @@ export const getEstablishmentLike = /* GraphQL */ `
 export const listEstablishmentLikes = /* GraphQL */ `
   query ListEstablishmentLikes(
     $establishmentId: ID
-    $createdAt: ModelIntKeyConditionInput
+    $createdAt: ModelStringKeyConditionInput
     $filter: ModelEstablishmentLikeFilterInput
     $limit: Int
     $nextToken: String
@@ -919,7 +1043,7 @@ export const listEstablishmentLikes = /* GraphQL */ `
 export const getEstablishmentLikesByUser = /* GraphQL */ `
   query GetEstablishmentLikesByUser(
     $userId: ID
-    $createdAt: ModelIntKeyConditionInput
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelEstablishmentLikeFilterInput
     $limit: Int
@@ -976,7 +1100,7 @@ export const getEstablishmentLikesByUser = /* GraphQL */ `
   }
 `;
 export const getCheckIn = /* GraphQL */ `
-  query GetCheckIn($establishmentId: ID!, $createdAt: AWSTimestamp!) {
+  query GetCheckIn($establishmentId: ID!, $createdAt: AWSDateTime!) {
     getCheckIn(establishmentId: $establishmentId, createdAt: $createdAt) {
       establishmentId
       userId
@@ -1077,7 +1201,7 @@ export const getCheckIn = /* GraphQL */ `
 export const listCheckIns = /* GraphQL */ `
   query ListCheckIns(
     $establishmentId: ID
-    $createdAt: ModelIntKeyConditionInput
+    $createdAt: ModelStringKeyConditionInput
     $filter: ModelCheckInFilterInput
     $limit: Int
     $nextToken: String
@@ -1134,7 +1258,7 @@ export const listCheckIns = /* GraphQL */ `
   }
 `;
 export const getReview = /* GraphQL */ `
-  query GetReview($establishmentId: ID!, $createdAt: AWSTimestamp!) {
+  query GetReview($establishmentId: ID!, $createdAt: AWSDateTime!) {
     getReview(establishmentId: $establishmentId, createdAt: $createdAt) {
       establishmentId
       userId
@@ -1238,7 +1362,7 @@ export const getReview = /* GraphQL */ `
 export const listReviews = /* GraphQL */ `
   query ListReviews(
     $establishmentId: ID
-    $createdAt: ModelIntKeyConditionInput
+    $createdAt: ModelStringKeyConditionInput
     $filter: ModelReviewFilterInput
     $limit: Int
     $nextToken: String
@@ -1300,7 +1424,7 @@ export const listReviews = /* GraphQL */ `
 export const getUserCheckins = /* GraphQL */ `
   query GetUserCheckins(
     $userId: ID
-    $createdAt: ModelIntKeyConditionInput
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelCheckInFilterInput
     $limit: Int

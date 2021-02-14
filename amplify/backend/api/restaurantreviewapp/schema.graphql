@@ -1,12 +1,8 @@
-type GPS {
-  lon: Float
-  lat: Float
-}
-
 type Establishment
   @model
   @auth(rules: [{ allow: public, provider: iam }])
-  @key(fields: ["ownerId", "id"]) {
+  @key(fields: ["ownerId", "id"])
+  @searchable {
   id: ID!
   ownerId: ID!
   owner: User
@@ -39,7 +35,7 @@ type EstablishmentLike
   establishmentId: ID!
   userId: ID!
     @auth(rules: [{ allow: owner, ownerField: "userId", identityClaim: "sub" }])
-  createdAt: AWSTimestamp!
+  createdAt: AWSDateTime!
   establishment: Establishment @connection(fields: ["establishmentId"])
   user: User @connection(fields: ["userId"])
   # placeID: String!
@@ -58,7 +54,7 @@ type CheckIn
   establishmentId: ID!
   userId: ID!
     @auth(rules: [{ allow: owner, ownerField: "userId", identityClaim: "sub" }])
-  createdAt: AWSTimestamp!
+  createdAt: AWSDateTime!
   # placeID: String!
   establishmentName: String
   establishment: Establishment @connection(fields: ["establishmentId"])
@@ -102,7 +98,7 @@ type Review
   establishmentId: ID!
   userId: ID!
     @auth(rules: [{ allow: owner, ownerField: "userId", identityClaim: "sub" }])
-  createdAt: AWSTimestamp!
+  createdAt: AWSDateTime!
   # placeID: String!
   establishmentName: String
   comments: String
@@ -165,4 +161,45 @@ type UserFollow
 enum UserType {
   consumer
   owner
+}
+
+type Query {
+  findEstablishments(
+    input: findEstablishmentsInput!
+  ): SearchableEstablishmentConnection
+}
+
+type GPS {
+  lon: Float
+  lat: Float
+}
+
+input GPSInput {
+  lon: Float!
+  lat: Float!
+}
+
+input GPSQueryInput {
+  gps: GPSInput!
+  radius: Float!
+}
+
+input findEstablishmentsInput {
+  byGPS: GPSQueryInput
+  street: String
+  city: String
+  state: String
+  zipcode: String
+  neighborhood: String
+  query: String
+  byPlaceID: String
+  limit: Int
+  nextToken: String
+  from: Int
+}
+
+type SearchableEstablishmentConnection @aws_iam {
+  items: [Establishment]
+  nextToken: String
+  total: Int
 }

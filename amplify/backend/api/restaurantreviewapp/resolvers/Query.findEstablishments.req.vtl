@@ -1,0 +1,84 @@
+#set( $indexPath = "/establishment/doc/_search" )
+
+#set($query = {
+  "bool": {
+  }
+})
+
+#set($sort = [])
+
+#if (!$util.isNull($context.args.input.byGPS ))
+  $util.qr($query.bool.put("filter", {
+  	"geo_distance": {
+      "distance": "${context.args.input.byGPS.radius}km",
+      "gps": $context.args.input.byGPS.gps
+    }
+  }))
+  
+  $util.qr($sort.add({
+	"_geo_distance":  {
+      "gps":  $context.args.input.byGPS.gps,
+      "order": "asc",
+      "unit": "mi", 
+      "distance_type": "plane" 
+  	}
+  }))
+#end
+
+#if(
+  !$util.isNull($context.args.input.byPlaceID ) || 
+  !$util.isNull($context.args.input.query) || 
+  !$util.isNull($context.args.input.street ) || 
+  !$util.isNull($context.args.input.city ) || 
+  !$util.isNull($context.args.input.state ) || 
+  !$util.isNull($context.args.input.zipcode )
+  )
+  $util.qr($query.bool.put("must", []))
+  
+  #if (!$util.isNull($context.args.input.byPlaceID ))
+    $util.qr($query.bool.must.add({ "match": { "placeID": "$context.args.input.byPlaceID" } }))
+  #end
+
+
+  #if (!$util.isNull($context.args.input.query))
+    $util.qr($query.bool.must.add({ "match": { "name": "$context.args.input.query" } }))
+  #end
+
+
+  #if (!$util.isNull($context.args.input.street ))
+    $util.qr($query.bool.must.add({ "match": { "address.street": "$context.args.input.street" } }))
+  #end
+  #if (!$util.isNull($context.args.input.city ))
+    $util.qr($query.bool.must.add({ "match": { "address.city": "$context.args.input.city" } }))
+  #end
+  #if (!$util.isNull($context.args.input.state ))
+    $util.qr($query.bool.must.add({ "match": { "address.state": "$context.args.input.state" } }))
+  #end
+  #if (!$util.isNull($context.args.input.zipcode ))
+    $util.qr($query.bool.must.add({ "match": { "address.zipcode": "$context.args.input.zipcode" } }))
+  #end
+#end
+
+#if (!$util.isNull($context.args)input)
+  #set($Integer = 0)
+  #set($from = $util.defaultIfNull($Integer.parseInt($context.args.input.nextToken), 0))
+  #set($size = $util.defaultIfNull($context.args.input.limit, 20))
+#else
+  #set($from = 0)
+  #set($size = 20)
+#end
+
+{
+  "version":"2017-02-28",
+  "operation":"GET",
+  "path":"$indexPath",
+  "params":{
+    "body": {
+      "from": $util.toJson($from),
+      "size": $util.toJson($size),
+      "query": $util.toJson($query),
+      "sort": $util.toJson($sort)
+    }
+  }
+}
+

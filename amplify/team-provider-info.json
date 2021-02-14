@@ -14,6 +14,31 @@
     "categories": {
       "auth": {
         "restaurantReviewAuth": {}
+      },
+      "function": {
+        "postConfirmation": {}
+      }
+    }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-restaurantreviewapp-prod-175810-authRole",
+      "UnauthRoleArn": "arn:aws:iam::519914110684:role/amplify-restaurantreviewapp-prod-175810-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::519914110684:role/amplify-restaurantreviewapp-prod-175810-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-restaurantreviewapp-prod-175810-deployment",
+      "UnauthRoleName": "amplify-restaurantreviewapp-prod-175810-unauthRole",
+      "StackName": "amplify-restaurantreviewapp-prod-175810",
+      "StackId": "arn:aws:cloudformation:us-east-1:519914110684:stack/amplify-restaurantreviewapp-prod-175810/5b7d23b0-6e57-11eb-a94a-0e715b49d7c1",
+      "AmplifyAppId": "d3jkxemn9b4rf5"
+    },
+    "categories": {
+      "auth": {
+        "userPoolGroups": {},
+        "restaurantReviewAuth": {}
+      },
+      "function": {
+        "postConfirmation": {}
       }
     }
   }
