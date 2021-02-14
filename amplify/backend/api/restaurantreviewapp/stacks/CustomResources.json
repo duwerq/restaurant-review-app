@@ -101,7 +101,7 @@
         }
       }
     },
-    "SearchEstablishmentResolver": {
+    "FindEstablishmentsResolver": {
       "Type": "AWS::AppSync::Resolver",
       "Properties": {
         "ApiId": {

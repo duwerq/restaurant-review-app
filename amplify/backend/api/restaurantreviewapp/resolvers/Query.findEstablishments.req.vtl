@@ -2,12 +2,14 @@
 
 #set($query = {
   "bool": {
+    
   }
 })
 
 #set($sort = [])
 
 #if (!$util.isNull($context.args.input.byGPS ))
+  $util.qr($query.bool.put("must", {"match_all" : {}}))
   $util.qr($query.bool.put("filter", {
   	"geo_distance": {
       "distance": "${context.args.input.byGPS.radius}km",
@@ -33,7 +35,7 @@
   !$util.isNull($context.args.input.state ) || 
   !$util.isNull($context.args.input.zipcode )
   )
-  $util.qr($query.bool.put("must", []))
+  
   
   #if (!$util.isNull($context.args.input.byPlaceID ))
     $util.qr($query.bool.must.add({ "match": { "placeID": "$context.args.input.byPlaceID" } }))
@@ -59,9 +61,8 @@
   #end
 #end
 
-#if (!$util.isNull($context.args)input)
-  #set($Integer = 0)
-  #set($from = $util.defaultIfNull($Integer.parseInt($context.args.input.nextToken), 0))
+#if (!$util.isNull($context.args.input))
+  #set($from = $util.defaultIfNull($context.args.input.nextToken, 0))
   #set($size = $util.defaultIfNull($context.args.input.limit, 20))
 #else
   #set($from = 0)
@@ -81,4 +82,3 @@
     }
   }
 }
-

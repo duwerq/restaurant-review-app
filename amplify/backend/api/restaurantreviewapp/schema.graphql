@@ -1,6 +1,11 @@
 type Establishment
   @model
-  @auth(rules: [{ allow: public, provider: iam }])
+  @auth(
+    rules: [
+      { allow: public, provider: iam }
+      { allow: private, provider: userPools }
+    ]
+  )
   @key(fields: ["ownerId", "id"])
   @searchable {
   id: ID!
@@ -25,7 +30,12 @@ type Establishment
 
 type EstablishmentLike
   @model(subscriptions: { level: public })
-  @auth(rules: [{ allow: public, provider: iam }])
+  @auth(
+    rules: [
+      { allow: public, provider: iam }
+      { allow: private, provider: userPools }
+    ]
+  )
   @key(fields: ["establishmentId", "createdAt"])
   @key(
     name: "establishmentLikesByUser"
@@ -44,7 +54,7 @@ type EstablishmentLike
 
 type CheckIn
   @model(subscriptions: { level: public })
-  @auth(rules: [{ allow: public, provider: iam }])
+  @auth(rules: [{ allow: private, provider: iam }])
   @key(fields: ["establishmentId", "createdAt"])
   @key(
     name: "userCheckins"
@@ -165,8 +175,8 @@ enum UserType {
 
 type Query {
   findEstablishments(
-    input: findEstablishmentsInput!
-  ): SearchableEstablishmentConnection
+    input: FindEstablishmentsInput!
+  ): SearchableEstablishmentConnection @aws_iam @aws_cognito_user_pools
 }
 
 type GPS {
@@ -184,7 +194,7 @@ input GPSQueryInput {
   radius: Float!
 }
 
-input findEstablishmentsInput {
+input FindEstablishmentsInput {
   byGPS: GPSQueryInput
   street: String
   city: String
@@ -198,7 +208,7 @@ input findEstablishmentsInput {
   from: Int
 }
 
-type SearchableEstablishmentConnection @aws_iam {
+type SearchableEstablishmentConnection @aws_iam @aws_cognito_user_pools {
   items: [Establishment]
   nextToken: String
   total: Int

@@ -2,7 +2,7 @@
 // this is an auto generated file. This will be overwritten
 
 export const findEstablishments = /* GraphQL */ `
-  query FindEstablishments($input: findEstablishmentsInput!) {
+  query FindEstablishments($input: FindEstablishmentsInput!) {
     findEstablishments(input: $input) {
       items {
         id
