@@ -4,8 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import Amplify, {Auth} from 'aws-amplify'
 import { withAuthenticator } from 'aws-amplify-react-native'
 import { Button } from 'react-native-elements';
-import config from './aws-exports'
 
+import Routes from './src/routes';
+import config from './aws-exports'
 
 Amplify.configure(config)
 
@@ -13,12 +14,7 @@ function App(props) {
   console.log({props})
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />   
-      <Button
-  title="Loading button"
-  loading
-/>
+      <Routes/>
     </View>
   );
 }
@@ -51,7 +47,9 @@ const signUpConfig = {
   ]
 };
 
-export default withAuthenticator(App, {signUpConfig, usernameAttributes: "Phone Number"})
+// export default withAuthenticator(App, {signUpConfig, usernameAttributes: "Phone Number"})
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {

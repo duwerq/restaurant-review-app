@@ -229,7 +229,7 @@
                 "        es_url = urlparse(ES_ENDPOINT)",
                 "        # Extract the domain name in ES_ENDPOINT",
                 "        es_endpoint = es_url.netloc or es_url.path",
-                "        es_put('', es_region, creds,es_endpoint, '/s12doctor')",
+                "        es_put('', es_region, creds,es_endpoint, '/')",
                 "        action = {\"mappings\": {\"doc\": {\"properties\": {\"gps\": {\"type\": \"geo_point\"}}}}}",
                 "        es_payload = json.dumps(action)",
                 "        es_put(es_payload, es_region, creds, es_endpoint, '/establishment')",
